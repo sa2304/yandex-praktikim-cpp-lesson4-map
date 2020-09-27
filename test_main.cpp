@@ -17,36 +17,34 @@ class TestLesson4 : public ::testing::Test {
 private:
 
 protected:
-  vector<string> m_documents;
-  set<string> m_stopWords;
-  map<string, set<int>> m_wordToDocuments;
+  void SetUp() 
+  { }
+};
 
-  void SetUp() {
-    m_documents = {
+TEST_F(TestLesson4, testLessonExample) 
+{
+    set<string> stop_words = {
+      "a"s, "the"s, "on"s, "cat"s
+    };
+
+  vector<string> documents = {
         "a fat cat sat on a mat and ate a fat rat"s,
         "little funny fluffy cat"s,
         "the cat"s,
         "huge green crocodile"s
     };
 
-    m_stopWords = {
-      "a"s, "the"s, "on"s, "cat"s
-    };
-
-    for (int i = 0; i < m_documents.size(); ++i) {
-        const string & doc = m_documents.at(i);
-        AddDocument(m_wordToDocuments, m_stopWords, i, doc);
+  map<string, set<int>> word_to_documents;
+    for (int i = 0; i < documents.size(); ++i) {
+        const string & doc = documents.at(i);
+        AddDocument(word_to_documents, stop_words, i, doc);
     }
-  }
-};
 
-TEST_F(TestLesson4, testLessonExample) 
-{
     const string query = "funny fat cat"s;
 
-    vector<int> vec_found = FindDocuments(m_wordToDocuments, m_stopWords, query);
-    vector<int> vec_expected = { 0, 1 };
-    EXPECT_EQ(vec_found, vec_expected);
+    vector<int> vec_found = FindDocuments(word_to_documents, stop_words, query);
+    //    vector<int> vec_expected = { 0, 1 };
+    //    EXPECT_EQ(vec_found, vec_expected);
 
     set<int> set_found(vec_found.begin(), vec_found.end());
     set<int> set_expected = { 0, 1 };
