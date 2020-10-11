@@ -26,22 +26,22 @@ int main() {
 	for (const string& word : query_words) {
 		cout << '[' << word << ']' << endl;
 	}
-    
-    vector<string> documents = {
-        "a fat cat sat on a mat and ate a fat rat"s,
-        "little funny fluffy cat"s,
-        "the cat"s,
-        "huge green crocodile"s
-    };
-    
-    map<string, set<int>> word_to_documents;
-    for (int i = 0; i < documents.size(); ++i) {
-        const string & doc = documents.at(i);
-        AddDocument(word_to_documents, stop_words, i, doc);
-    }
-    
-    vector<int> relevant_documents = FindDocuments(word_to_documents, stop_words, query);
-    for (const int id : relevant_documents) {
-        cout << id << endl;
-    }
+	
+	vector<string> documents = {
+		"a fat cat sat on a mat and ate a fat rat"s,
+		"little funny fluffy cat"s,
+		"the cat"s,
+		"huge green crocodile"s
+	};
+	
+	map<string, set<int>> word_to_documents;
+	for (int i = 0; i < documents.size(); ++i) {
+		const string & doc = documents.at(i);
+		AddDocument(word_to_documents, stop_words, i, doc);
+	}
+	
+	vector<int> relevant_documents = FindDocuments(word_to_documents, stop_words, query);
+	for (const int id : relevant_documents) {
+		cout << id << endl;
+	}
 }
