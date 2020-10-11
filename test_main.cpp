@@ -102,3 +102,32 @@ TEST_F(TestLesson4, testNoRelevantDocuments)
     set<int> set_expected = { };
     EXPECT_EQ(set_found, set_expected);
 }
+
+TEST_F(TestLesson4, testNoDuplicatesInResultVector) {
+  set<string> stop_words = {
+    "a"s, "the"s, "on"s, "cat"s
+  };
+
+  vector<string> documents = {
+      "a fat cat sat on a mat and ate a fat rat"s,
+      "little funny fluffy cat"s,
+      "the cat"s,
+      "huge green crocodile"s
+  };
+
+  map<string, set<int>> word_to_documents;
+  for (int i = 0; i < documents.size(); ++i) {
+    const string & doc = documents.at(i);
+    AddDocument(word_to_documents, stop_words, i, doc);
+  }
+
+  const string query = "funny fat cat ate rat"s;
+
+  vector<int> vec_found = FindDocuments(word_to_documents, stop_words, query);
+  for (int id : vec_found) {
+    clog << id << endl;
+  }
+  set<int> set_found(vec_found.begin(), vec_found.end());
+  //  set<int> set_expected = { };
+  EXPECT_EQ(vec_found.size(), set_found.size());
+}
