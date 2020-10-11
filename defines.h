@@ -53,16 +53,16 @@ void AddDocument(map<string, set<int>>& word_to_documents,
 vector<int> FindDocuments(const map<string, set<int>>& word_to_documents,
                           const set<string>& stop_words,
                           const string& query) {
-    vector<int> result;
+    set<int> relevant_documents;
     for (const string & word : SplitIntoWords(query)) {
         if (!stop_words.count(word) && word_to_documents.count(word)) {
 	  clog << "trying word " << word << endl;
             const set<int> & set_relevant_documents = word_to_documents.at(word);
             for (const int id : set_relevant_documents) {
-                result.push_back( id );
+                relevant_documents.insert( id );
             }
         }
     }
     
-    return result;
+    return vector<int>(relevant_documents.begin(), relevant_documents.end());
 }
